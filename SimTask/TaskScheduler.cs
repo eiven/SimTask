@@ -66,14 +66,14 @@ namespace SimTask
 
     private void DoWork(ITask task, float timeToWorkOn)
     {
-      if (task.ChildTasks.Count > 0)
+      if (task.GetChildTasks().Count > 0)
       {
         switch (task.ChildMode)
         {
           case TaskChildMode.Sequentiell:
             {
               ITask taskToWorkOnSequentiell = null;
-              foreach (var childTask in task.ChildTasks)
+              foreach (var childTask in task.GetChildTasks())
               {
                 if (childTask.GetProgress() < 1.0f)
                 {
@@ -93,7 +93,7 @@ namespace SimTask
           case TaskChildMode.Simultaneously:
             {
               float timeToWorkSimultaneously = float.MaxValue;
-              foreach (var childTask in task.ChildTasks)
+              foreach (var childTask in task.GetChildTasks())
               {
                 float timeToWorkOnMin = childTask.GetTimeToWorkOn();
                 if (timeToWorkOnMin < timeToWorkSimultaneously)
@@ -104,7 +104,7 @@ namespace SimTask
 
               if (timeToWorkSimultaneously > 0)
               {
-                foreach (var childTask in task.ChildTasks)
+                foreach (var childTask in task.GetChildTasks())
                 {
                   DoWork(childTask, timeToWorkSimultaneously);
                 }
@@ -115,7 +115,7 @@ namespace SimTask
 
           case TaskChildMode.SideBySide:
             {
-              foreach (var childTask in task.ChildTasks)
+              foreach (var childTask in task.GetChildTasks())
               {
                 DoWork(childTask, childTask.GetTimeToWorkOn());
               }

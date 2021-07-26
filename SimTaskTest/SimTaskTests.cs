@@ -27,13 +27,13 @@ namespace TaskingFrameworkNUnitTest.Tasking3
       sync.ChildMode = TaskChildMode.Simultaneously;
       sync.Name = "Sync unload tasks";
       var taskUnloadDriver = new TaskUnload();
-      taskUnloadDriver.TimeCosts = 1000;
+      taskUnloadDriver.SetTimeCosts(1000);
       taskUnloadDriver.Name = "taskUnloadDriver";
       var taskUnloadWarehouse = new TaskUnload();
-      taskUnloadWarehouse.TimeCosts = 1000;
+      taskUnloadWarehouse.SetTimeCosts(1000);
       taskUnloadWarehouse.Name = "taskUnloadWarehouse";
       var taskCleanWarehouse = new Task();
-      taskCleanWarehouse.TimeCosts = 2000;
+      taskCleanWarehouse.SetTimeCosts(2000);
       taskCleanWarehouse.Name = "taskCleanWarehouse";
 
       driver.AddTask(sync);
@@ -71,13 +71,13 @@ namespace TaskingFrameworkNUnitTest.Tasking3
       sequentiellUnloading.ChildMode = TaskChildMode.Sequentiell;
       sequentiellUnloading.Name = "Unload stock sequentiell";
       var taskUnloadDriver = new TaskUnload();
-      taskUnloadDriver.TimeCosts = 1000;
+      taskUnloadDriver.SetTimeCosts(1000);
       taskUnloadDriver.Name = "taskUnloadDriver";
       var taskUnloadWarehouse = new TaskUnload();
-      taskUnloadWarehouse.TimeCosts = 1000;
+      taskUnloadWarehouse.SetTimeCosts(1000);
       taskUnloadWarehouse.Name = "taskUnloadWarehouse";
       var taskCleanWarehouse = new Task();
-      taskCleanWarehouse.TimeCosts = 2000;
+      taskCleanWarehouse.SetTimeCosts(2000);
       taskCleanWarehouse.Name = "taskCleanWarehouse";
 
       driver.AddTask(sequentiellUnloading);
@@ -116,13 +116,13 @@ namespace TaskingFrameworkNUnitTest.Tasking3
       sideBySideCleanApartment.ChildMode = TaskChildMode.SideBySide;
       sideBySideCleanApartment.Name = "Cleaning apartment.";
       var taskCleanKitchen = new TaskUnload();
-      taskCleanKitchen.TimeCosts = 1500;
+      taskCleanKitchen.SetTimeCosts(1500);
       taskCleanKitchen.Name = "taskCleanKitchen";
       var taskCleanBathroom = new TaskUnload();
-      taskCleanBathroom.TimeCosts = 1000;
+      taskCleanBathroom.SetTimeCosts(1000);
       taskCleanBathroom.Name = "taskCleanBathroom";
       var taskCleanLivingRoom = new Task();
-      taskCleanLivingRoom.TimeCosts = 2000;
+      taskCleanLivingRoom.SetTimeCosts(2000);
       taskCleanLivingRoom.Name = "taskCleanLivingRoom";
 
       cleanerOne.AddTask(sideBySideCleanApartment);

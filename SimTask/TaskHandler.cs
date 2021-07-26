@@ -22,7 +22,7 @@ namespace SimTask
     {
       if (this.TaskQueue.IsTaskReachable(task))
       {
-        if (task.ChildTasks.Count > 0)
+        if (task.GetChildTasks().Count > 0)
         {
           return 0.0f;
         }

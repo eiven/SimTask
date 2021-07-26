@@ -29,6 +29,8 @@ namespace SimTask
 
   /// <summary>
   /// Basic interface defining a task.
+  /// A task is a piece of work that has to be finished
+  /// by a specific task handler (worker) and generates a certain amount of work.
   /// </summary>
   public interface ITask
   {
@@ -53,19 +55,20 @@ namespace SimTask
     event EventHandler OnProgressChanged;
 
     /// <summary>
-    /// Time costs for the task.
+    /// Gets the time costs for the task.
     /// </summary>
-    float TimeCosts { get; set; }
+    float GetTimeCosts();
+
+    /// <summary>
+    /// Sets the time costs for the task;
+    /// </summary>
+    /// <param name="timeCosts">Time costs.</param>
+    void SetTimeCosts(float timeCosts);
 
     /// <summary>
     /// Invested time on the task.
     /// </summary>
     float InvestedTime { get; set; }
-
-    /// <summary>
-    /// Gets a list of child <see cref="ITask"/>s.
-    /// </summary>
-    IList<ITask> ChildTasks { get; set; }
 
     /// <summary>
     /// Gets the current progress of the <see cref="ITask"/>.
@@ -95,6 +98,12 @@ namespace SimTask
     /// </summary>
     /// <param name="task"></param>
     void AddChildTask(ITask task);
+
+    /// <summary>
+    /// Get a list of child <see cref="ITask"/>s.
+    /// </summary>
+    /// <returns></returns>
+    IList<ITask> GetChildTasks();
 
     /// <summary>
     /// Sets the parent task.

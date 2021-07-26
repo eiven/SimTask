@@ -6,7 +6,7 @@ namespace TaskingFrameworkNUnitTest.Tasking3.TestData
   {
     public TaskUnload()
     {
-      this.TimeCosts = 1000;
+      this.SetTimeCosts(1000);
     }
   }
 }

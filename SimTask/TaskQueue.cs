@@ -56,7 +56,7 @@ namespace SimTask
       currentNode.AddNode(treeNode);
       this.Nodes.Add(task, treeNode);
 
-      foreach (ITask child in task.ChildTasks)
+      foreach (ITask child in task.GetChildTasks())
       {
         if (this.Nodes.ContainsKey(child))
         {
