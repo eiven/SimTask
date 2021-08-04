@@ -15,38 +15,19 @@ namespace SimTask
       this.rootNode.Value = rootTask;
     }
 
+    public TaskQueueTreeNode rootNode { get; set; }
+
+    public Dictionary<ITask, TaskQueueTreeNode> Nodes { get; set; } = new Dictionary<ITask, TaskQueueTreeNode>();
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
     public bool IsTaskReachable(ITask task)
     {
       return this.IsTaskReachable(task, this.rootNode);
-    }
-
-    public bool IsTaskReachable(ITask task, TaskQueueTreeNode currentNode)
-    {
-      if (currentNode.Value == task)
-      {
-        return true;
-      }
-
-      foreach (TaskQueueTreeNode node in currentNode.GetNodes())
-      {
-        if (currentNode.Value.ChildMode == TaskChildMode.Sequentiell)
-        {
-          if (node.Value != null && node.Value.GetProgress() < 1.0f)
-          {
-            return this.IsTaskReachable(task, node);
-          }
-        }
-        else if (currentNode.Value.ChildMode == TaskChildMode.Simultaneously)
-        {
-          return this.IsTaskReachable(task, node);
-        }
-        else if (currentNode.Value.ChildMode == TaskChildMode.SideBySide)
-        {
-          return this.IsTaskReachable(task, node);
-        }
-      }
-
-      return false;
     }
 
     public bool AddTaskToNode(ITask task, TaskQueueTreeNode currentNode)
@@ -86,11 +67,10 @@ namespace SimTask
     }
 
     /// <summary>
-    /// Wenn ein task einem anderen task untergeordnet wird ändert sich auch die Position
-    /// des tasks in der Queue.
+    /// If a task is subordinated to another task, the position of the task in the queue also changes.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="eventArgs"></param>
+    /// <param name="sender">Sender.</param>
+    /// <param name="eventArgs">Event args.</param>
     public void OnParentTaskChanged(object sender, EventArgs eventArgs)
     {
       var task = (ITask)sender;
@@ -114,11 +94,21 @@ namespace SimTask
       }
     }
 
+    /// <summary>
+    /// After a task is finished the task could be removed.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="eventArgs"></param>
     public void OnTaskFinished(object sender, EventArgs eventArgs)
     {
       var task = (ITask)sender;
       this.RemoveTask(task);
     }
+
+    /// <summary>
+    /// Removes <paramref name="task"/> from queue by removing the related <see cref="TaskQueueTreeNode"/>.
+    /// </summary>
+    /// <param name="task"></param>
     public void RemoveTask(ITask task)
     {
       if (this.Nodes.ContainsKey(task))
@@ -128,6 +118,10 @@ namespace SimTask
       }
     }
 
+    /// <summary>
+    /// Removes <paramref name="treeNode"/> from <see cref="TaskQueue.Nodes"/>.
+    /// </summary>
+    /// <param name="treeNode"></param>
     public void RemoveTreeNode(TaskQueueTreeNode treeNode)
     {
       foreach (TaskQueueTreeNode childTreeNode in treeNode.GetNodes())
@@ -145,8 +139,41 @@ namespace SimTask
       treeNode.PreviousNode = null;
     }
 
-    public TaskQueueTreeNode rootNode { get; set; }
+    /// <summary>
+    /// The queue uses a graph to represent the queue.
+    /// To find out if a given <paramref name="task"/> is reachable we loop through the <see cref="TaskQueueTreeNode"/>s
+    /// object tree recursively.
+    /// </summary>
+    /// <param name="task">Task to check.</param>
+    /// <param name="currentNode">Current node in object tree to be checked.</param>
+    /// <returns></returns>
+    private bool IsTaskReachable(ITask task, TaskQueueTreeNode currentNode)
+    {
+      if (currentNode.Value == task)
+      {
+        return true;
+      }
 
-    public Dictionary<ITask, TaskQueueTreeNode> Nodes { get; set; } = new Dictionary<ITask, TaskQueueTreeNode>();
+      foreach (TaskQueueTreeNode node in currentNode.GetNodes())
+      {
+        if (currentNode.Value.ChildMode == TaskChildMode.Sequentiell)
+        {
+          if (node.Value != null && node.Value.GetProgress() < 1.0f)
+          {
+            return this.IsTaskReachable(task, node);
+          }
+        }
+        else if (currentNode.Value.ChildMode == TaskChildMode.Simultaneously)
+        {
+          return this.IsTaskReachable(task, node);
+        }
+        else if (currentNode.Value.ChildMode == TaskChildMode.SideBySide)
+        {
+          return this.IsTaskReachable(task, node);
+        }
+      }
+
+      return false;
+    }
   }
 }

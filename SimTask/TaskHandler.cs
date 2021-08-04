@@ -6,14 +6,23 @@ namespace SimTask
 {
   public class TaskHandler : ITaskHandler
   {
+    /// <summary>
+    /// Event occurs after a new task was added.
+    /// </summary>
     public event TaskAddedEventHandler OnTaskAdded;
 
+    /// <summary>
+    /// Event occurs after a task was removed.
+    /// </summary>
     public event TaskRemovedEventHandler OnTaskRemoved;
 
     public string Name { get; set; }
 
     public float TimeAccount { get; set; }
 
+    /// <summary>
+    /// Gets or sets the task queue that is organizing the taks.
+    /// </summary>
     public TaskQueue TaskQueue { get; set; } = new TaskQueue();
 
     public List<ITask> Tasks { get; set; } = new List<ITask>();

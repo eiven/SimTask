@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SimTask
 {
@@ -79,7 +78,7 @@ namespace SimTask
     /// <summary>
     /// Gets the time that can be worked on the <see cref="ITask"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Time to work on task.</returns>
     float GetTimeToWorkOn();
 
     /// <summary>
@@ -102,7 +101,7 @@ namespace SimTask
     /// <summary>
     /// Get a list of child <see cref="ITask"/>s.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>All child tasks.</returns>
     IList<ITask> GetChildTasks();
 
     /// <summary>

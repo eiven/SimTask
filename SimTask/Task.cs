@@ -40,8 +40,14 @@ namespace SimTask
     /// </summary>
     public float InvestedTime { get; set; }
 
+    /// <summary>
+    /// Gets <see cref="TaskChildMode"/> for the <see cref="ITask.ChildTasks"/>.
+    /// </summary>
     public TaskChildMode ChildMode { get; set; }
 
+    /// <summary>
+    /// Gets or sets the task name.
+    /// </summary>
     public string Name { get; set; }
 
     /// <summary>
@@ -107,6 +113,10 @@ namespace SimTask
       return progress;
     }
 
+    /// <summary>
+    /// Gets the time that can be worked on the <see cref="ITask"/>.
+    /// </summary>
+    /// <returns>Time to work on task.</returns>
     public float GetTimeToWorkOn()
     {
       if (this.progress >= 1)
@@ -158,6 +168,9 @@ namespace SimTask
       }
     }
 
+    /// <summary>
+    /// Update progess.
+    /// </summary>
     protected void UpdateProgress()
     {
       float progressCalculated = 0.0f;
@@ -194,11 +207,17 @@ namespace SimTask
       this.SetProgress(progressCalculated);
     }
 
+    /// <summary>
+    /// Gets the <see cref="ITaskHandler"/> of the task.
+    /// </summary>
     public ITaskHandler GetTaskHandler()
     {
       return this.taskHandler;
     }
 
+    /// <summary>
+    /// Sets the <see cref="ITaskHandler"/> of the task.
+    /// </summary>
     public void SetTaskHandler(ITaskHandler taskHandler)
     {
       this.taskHandler = taskHandler;
@@ -221,6 +240,10 @@ namespace SimTask
       this.timeCosts = timeCosts;
     }
 
+    /// <summary>
+    /// Get a list of child <see cref="ITask"/>s.
+    /// </summary>
+    /// <returns>All child tasks.</returns>
     public IList<ITask> GetChildTasks()
     {
       return this.childTasks;
