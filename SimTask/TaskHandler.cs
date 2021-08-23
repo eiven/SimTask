@@ -6,6 +6,8 @@ namespace SimTask
 {
   public class TaskHandler : ITaskHandler
   {
+    private float timeAccount;
+
     /// <summary>
     /// Event occurs after a new task was added.
     /// </summary>
@@ -18,8 +20,6 @@ namespace SimTask
 
     public string Name { get; set; }
 
-    public float TimeAccount { get; set; }
-
     /// <summary>
     /// Gets or sets the task queue that is organizing the taks.
     /// </summary>
@@ -27,7 +27,30 @@ namespace SimTask
 
     public List<ITask> Tasks { get; set; } = new List<ITask>();
 
-    public float GetTimeToWorkOnTask(Task task)
+    /// <summary>
+    /// Sets the time account value.
+    /// </summary>
+    /// <param name="value">Time account value.</param>
+    public void SetTimeAccount(float value)
+    {
+      this.timeAccount = value;
+    }
+
+    /// <summary>
+    /// Gets the time account.
+    /// </summary>
+    /// <returns>Time account.</returns>
+    public float GetTimeAccount()
+    {
+      return this.timeAccount;
+    }
+
+    /// <summary>
+    /// Gets the time to work on task.
+    /// </summary>
+    /// <param name="task">Task to work on.</param>
+    /// <returns>Time to work on task.</returns>
+    public float GetTimeToWorkOnTask(ITask task)
     {
       if (this.TaskQueue.IsTaskReachable(task))
       {
@@ -36,15 +59,26 @@ namespace SimTask
           return 0.0f;
         }
 
-        return this.TimeAccount;
+        return this.timeAccount;
       }
 
       return 0.0f;
     }
 
+    /// <summary>
+    /// Gets the efficiency on a task.
+    /// This could be used to calculate different time costs per task handler.
+    /// </summary>
+    /// <param name="task">Task.</param>
+    /// <returns>Efficiency from 0.0f to 1.0f.</returns>
+    public float GetEfficiencyFactorOnTask(ITask task)
+    {
+      return 1.0f;
+    }
+
     public void HandleTask(ITask task, float deltaTime)
     {
-      this.TimeAccount -= deltaTime;
+      this.timeAccount -= deltaTime;
       task.InvestedTime += deltaTime;
     }
 

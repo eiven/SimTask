@@ -31,9 +31,16 @@ namespace SimTask
     TaskQueue TaskQueue { get; set; }
 
     /// <summary>
-    /// Gets or sets the time account for the task handler.
+    /// Sets the time account value.
     /// </summary>
-    float TimeAccount { get; set; }
+    /// <param name="value">Time account value.</param>
+    void SetTimeAccount(float value);
+
+    /// <summary>
+    /// Gets the time account.
+    /// </summary>
+    /// <returns>Time account.</returns>
+    float GetTimeAccount();
 
     /// <summary>
     /// Handle task.
@@ -42,7 +49,20 @@ namespace SimTask
     /// <param name="deltaTime">Delta time.</param>
     void HandleTask(ITask task, float deltaTime);
 
-    float GetTimeToWorkOnTask(Task task);
+    /// <summary>
+    /// Gets the time to work on task.
+    /// </summary>
+    /// <param name="task">Task to work on.</param>
+    /// <returns>Time to work on task.</returns>
+    float GetTimeToWorkOnTask(ITask task);
+
+    /// <summary>
+    /// Gets the efficiency on a task.
+    /// This could be used to calculate different time costs per task handler.
+    /// </summary>
+    /// <param name="task">Task.</param>
+    /// <returns>Efficiency from 0.0f to 1.0f.</returns>
+    float GetEfficiencyFactorOnTask(ITask task);
 
     void AddTask(ITask task);
 
