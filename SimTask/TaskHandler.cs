@@ -42,10 +42,10 @@ namespace SimTask
       return 0.0f;
     }
 
-    public void HandleTask(ITask task, float deltaTime)
+    public void HandleTask(ITask task, float timeToWorkOnTask)
     {
-      this.TimeAccount -= deltaTime;
-      task.InvestedTime += deltaTime;
+      this.TimeAccount -= timeToWorkOnTask;
+      task.InvestedTime += timeToWorkOnTask;
     }
 
     public void AddTask(ITask task)

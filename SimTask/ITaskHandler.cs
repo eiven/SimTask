@@ -39,13 +39,26 @@ namespace SimTask
     /// Handle task.
     /// </summary>
     /// <param name="task">Task.</param>
-    /// <param name="deltaTime">Delta time.</param>
-    void HandleTask(ITask task, float deltaTime);
+    /// <param name="timeToWorkOnTask">Time to work on task.</param>
+    void HandleTask(ITask task, float timeToWorkOnTask);
 
+    /// <summary>
+    /// Gets the time the worker has available for the task.
+    /// </summary>
+    /// <param name="task">Task to work on.</param>
+    /// <returns>Time to work on task.</returns>
     float GetTimeToWorkOnTask(Task task);
 
+    /// <summary>
+    /// Adds a task to the handler.
+    /// </summary>
+    /// <param name="task">Task.</param>
     void AddTask(ITask task);
 
+    /// <summary>
+    /// Removes a task from the handler.
+    /// </summary>
+    /// <param name="task">Task.</param>
     void RemoveTask(ITask task);
   }
 }
