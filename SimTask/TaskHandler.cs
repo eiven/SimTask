@@ -82,6 +82,10 @@ namespace SimTask
       task.InvestedTime += deltaTime;
     }
 
+    /// <summary>
+    /// Adding a task to handler.
+    /// </summary>
+    /// <param name="task">Task to add.</param>
     public void AddTask(ITask task)
     {
       if (task == null)
@@ -107,6 +111,10 @@ namespace SimTask
     {
     }
 
+    /// <summary>
+    /// Remove a task from handler.
+    /// </summary>
+    /// <param name="task">Task to remove.</param>
     public void RemoveTask(ITask task)
     {
       this.Tasks.Remove(task);

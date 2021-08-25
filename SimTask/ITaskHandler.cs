@@ -64,8 +64,16 @@ namespace SimTask
     /// <returns>Efficiency from 0.0f to 1.0f.</returns>
     float GetEfficiencyFactorOnTask(ITask task);
 
+    /// <summary>
+    /// Adding a task to handler.
+    /// </summary>
+    /// <param name="task">Task to add.</param>
     void AddTask(ITask task);
 
+    /// <summary>
+    /// Remove a task from handler.
+    /// </summary>
+    /// <param name="task">Task to remove.</param>
     void RemoveTask(ITask task);
   }
 }
