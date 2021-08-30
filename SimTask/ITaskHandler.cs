@@ -31,9 +31,16 @@ namespace SimTask
     TaskQueue TaskQueue { get; set; }
 
     /// <summary>
-    /// Gets or sets the time account for the task handler.
+    /// Sets the time account value.
     /// </summary>
-    float TimeAccount { get; set; }
+    /// <param name="value">Time account value.</param>
+    void SetTimeAccount(float value);
+
+    /// <summary>
+    /// Gets the time account.
+    /// </summary>
+    /// <returns>Time account.</returns>
+    float GetTimeAccount();
 
     /// <summary>
     /// Handle task.
@@ -50,15 +57,23 @@ namespace SimTask
     float GetTimeToWorkOnTask(Task task);
 
     /// <summary>
-    /// Adds a task to the handler.
+    /// Gets the efficiency on a task.
+    /// This could be used to calculate different time costs per task handler.
     /// </summary>
     /// <param name="task">Task.</param>
+    /// <returns>Efficiency from 0.0f to 1.0f.</returns>
+    float GetEfficiencyFactorOnTask(ITask task);
+
+    /// <summary>
+    /// Adding a task to handler.
+    /// </summary>
+    /// <param name="task">Task to add.</param>
     void AddTask(ITask task);
 
     /// <summary>
-    /// Removes a task from the handler.
+    /// Remove a task from handler.
     /// </summary>
-    /// <param name="task">Task.</param>
+    /// <param name="task">Task to remove.</param>
     void RemoveTask(ITask task);
   }
 }

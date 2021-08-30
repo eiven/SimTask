@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SimTask
 {
-  /// <summary>
-  /// A task handler is representation of someone or something that can handle tasks.
-  /// </summary>
   public class TaskHandler : ITaskHandler
   {
-    /// <summary>
-    /// Stores the <see cref="ITask"/>s handled by the task handler. 
-    /// </summary>
-    private List<ITask> Tasks = new List<ITask>();
+    private float timeAccount;
 
     /// <summary>
     /// Event occurs after a new task was added.
@@ -23,27 +18,39 @@ namespace SimTask
     /// </summary>
     public event TaskRemovedEventHandler OnTaskRemoved;
 
-    /// <summary>
-    /// Gets or sets the name of the task handler.
-    /// </summary>
     public string Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the time account for the task handler.
-    /// </summary>
-    public float TimeAccount { get; set; }
 
     /// <summary>
     /// Gets or sets the task queue that is organizing the taks.
     /// </summary>
     public TaskQueue TaskQueue { get; set; } = new TaskQueue();
 
+    public List<ITask> Tasks { get; set; } = new List<ITask>();
+
     /// <summary>
-    /// Gets the time the worker has available for the task.
+    /// Sets the time account value.
+    /// </summary>
+    /// <param name="value">Time account value.</param>
+    public void SetTimeAccount(float value)
+    {
+      this.timeAccount = value;
+    }
+
+    /// <summary>
+    /// Gets the time account.
+    /// </summary>
+    /// <returns>Time account.</returns>
+    public float GetTimeAccount()
+    {
+      return this.timeAccount;
+    }
+
+    /// <summary>
+    /// Gets the time to work on task.
     /// </summary>
     /// <param name="task">Task to work on.</param>
     /// <returns>Time to work on task.</returns>
-    public float GetTimeToWorkOnTask(Task task)
+    public float GetTimeToWorkOnTask(ITask task)
     {
       if (this.TaskQueue.IsTaskReachable(task))
       {
@@ -52,27 +59,33 @@ namespace SimTask
           return 0.0f;
         }
 
-        return this.TimeAccount;
+        return this.timeAccount;
       }
 
       return 0.0f;
     }
 
     /// <summary>
-    /// Handle task.
+    /// Gets the efficiency on a task.
+    /// This could be used to calculate different time costs per task handler.
     /// </summary>
     /// <param name="task">Task.</param>
-    /// <param name="timeToWorkOnTask">Time to work on task.</param>
-    public void HandleTask(ITask task, float timeToWorkOnTask)
+    /// <returns>Efficiency from 0.0f to 1.0f.</returns>
+    public float GetEfficiencyFactorOnTask(ITask task)
     {
-      this.TimeAccount -= timeToWorkOnTask;
-      task.InvestedTime += timeToWorkOnTask;
+      return 1.0f;
+    }
+
+    public void HandleTask(ITask task, float deltaTime)
+    {
+      this.timeAccount -= deltaTime;
+      task.InvestedTime += deltaTime;
     }
 
     /// <summary>
-    /// Adds a task to the handler.
+    /// Adding a task to handler.
     /// </summary>
-    /// <param name="task">Task.</param>
+    /// <param name="task">Task to add.</param>
     public void AddTask(ITask task)
     {
       if (task == null)
@@ -88,34 +101,24 @@ namespace SimTask
       this.OnTaskAdded?.Invoke(this, task);
     }
 
-    /// <summary>
-    /// Removes a task from the handler.
-    /// </summary>
-    /// <param name="task">Task.</param>
-    public void RemoveTask(ITask task)
-    {
-      this.Tasks.Remove(task);
-      this.OnTaskRemoved?.Invoke(this, task);
-    }
-
-    /// <summary>
-    /// On task finished.
-    /// </summary>
-    /// <param name="sender">Sender.</param>
-    /// <param name="eventArgs">Event args.</param>
-    protected virtual void OnTaskFinished(object sender, EventArgs eventArgs)
+    protected void OnTaskFinished(object sender, EventArgs args)
     {
       var task = (ITask)sender;
       this.RemoveTask(task);
     }
 
-    /// <summary>
-    /// On task started.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
-    protected virtual void OnTaskStarted(object sender, EventArgs args)
+    protected void OnTaskStarted(object sender, EventArgs args)
     {
+    }
+
+    /// <summary>
+    /// Remove a task from handler.
+    /// </summary>
+    /// <param name="task">Task to remove.</param>
+    public void RemoveTask(ITask task)
+    {
+      this.Tasks.Remove(task);
+      this.OnTaskRemoved?.Invoke(this, task);
     }
   }
 }
