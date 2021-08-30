@@ -17,7 +17,6 @@ namespace TaskingFrameworkNUnitTest.Tasking3
     public void TestSimultaneously()
     {
       var scheduler = new TaskScheduler();
-      scheduler.SimulationTime = 100;
       TaskHandler driver = new TaskHandler();
       driver.Name = "Driver";
       TaskHandler warehouse = new TaskHandler();
@@ -61,7 +60,6 @@ namespace TaskingFrameworkNUnitTest.Tasking3
     public void TestSequentiell()
     {
       var scheduler = new TaskScheduler();
-      scheduler.SimulationTime = 100;
       TaskHandler driver = new TaskHandler();
       driver.Name = "Driver";
       TaskHandler warehouse = new TaskHandler();
@@ -104,7 +102,6 @@ namespace TaskingFrameworkNUnitTest.Tasking3
     public void TestSideBySide()
     {
       var scheduler = new TaskScheduler();
-      scheduler.SimulationTime = 100;
       TaskHandler cleanerOne = new TaskHandler();
       cleanerOne.Name = "Cleaner one";
       TaskHandler cleanerTwo = new TaskHandler();
