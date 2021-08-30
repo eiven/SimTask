@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SimTask
 {
+  /// <summary>
+  /// The task scheduler is used to work on tasks per tick. 
+  /// </summary>
   public class TaskScheduler
   {
     public List<ITask> Tasks = new List<ITask>();
@@ -41,7 +44,7 @@ namespace SimTask
       this.taskProgressChanged = true;
       foreach (var task in this.Tasks)
       {
-        task.GetTaskHandler().TimeAccount = deltaTime;
+        task.GetTaskHandler().SetTimeAccount(deltaTime);
       }
 
       while (taskProgressChanged)
@@ -55,7 +58,7 @@ namespace SimTask
           {
             if (task.GetParentTask() == null)
             {
-              this.DoWork(task, task.GetTaskHandler().TimeAccount);
+              this.DoWork(task, task.GetTaskHandler().GetTimeAccount());
             }
           }
         }
@@ -124,9 +127,9 @@ namespace SimTask
         }
       }
 
-      if (timeToWorkOn > task.GetTaskHandler().TimeAccount)
+      if (timeToWorkOn > task.GetTaskHandler().GetTimeAccount())
       {
-        timeToWorkOn = task.GetTaskHandler().TimeAccount;
+        timeToWorkOn = task.GetTaskHandler().GetTimeAccount();
       }
 
       if (timeToWorkOn >= 0)
