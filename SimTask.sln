@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimTask", "SimTask\SimTask.csproj", "{8290CA5A-383C-4061-88A7-3DAA1B398D1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimTaskTest", "SimTaskTest\SimTaskTest.csproj", "{B3D1055D-29BB-442C-8A2F-539F1AD8F6A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimTaskTest", "SimTaskTest\SimTaskTest.csproj", "{B3D1055D-29BB-442C-8A2F-539F1AD8F6A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimTaskViewer", "SimTaskViewer\SimTaskViewer.csproj", "{6B210CF6-B234-48B5-AE80-8F92307E9A01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B3D1055D-29BB-442C-8A2F-539F1AD8F6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3D1055D-29BB-442C-8A2F-539F1AD8F6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3D1055D-29BB-442C-8A2F-539F1AD8F6A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B210CF6-B234-48B5-AE80-8F92307E9A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B210CF6-B234-48B5-AE80-8F92307E9A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B210CF6-B234-48B5-AE80-8F92307E9A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B210CF6-B234-48B5-AE80-8F92307E9A01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
