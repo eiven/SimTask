@@ -54,7 +54,7 @@ namespace SimTask
     /// </summary>
     /// <param name="task">Task to work on.</param>
     /// <returns>Time to work on task.</returns>
-    float GetTimeToWorkOnTask(Task task);
+    float GetTimeToWorkOnTask(ITask task);
 
     /// <summary>
     /// Gets the efficiency on a task.
