@@ -35,11 +35,12 @@ namespace SimTaskViewer
     {
       InitializeComponent();
       this.DataContext = this;
-      this.TestSideBySide();
+      //this.TestSideBySide();
+      this.TestComplexTaskScenario();
     }
 
     /// <summary>
-    /// This will 
+    /// This method creates a side by side task scenario.
     /// </summary>
     public void TestSideBySide()
     {
@@ -115,9 +116,74 @@ namespace SimTaskViewer
       scheduler.AddTask(taskWashLivingRoomFloor);
       scheduler.AddTask(sideBySideCleanApartment);
 
-      Timer.Interval = 1;
-      Timer.Elapsed += Timer_Elapsed;
-      Timer.Start();
+      //Timer.Interval = 1;
+      //Timer.Elapsed += Timer_Elapsed;
+      //Timer.Start();
+    }
+
+    public void TestComplexTaskScenario()
+    {
+      var taskViewerViewModel = new TaskViewerViewModel();
+      this.TaskTreeListItems = new ObservableCollection<TaskTreeListItem>();
+      taskViewerViewModel.TaskTreeListItems = this.TaskTreeListItems;
+      taskViewerViewModel.TaskScheduler = scheduler;
+      this.TaskTreeListItems.Add(new TaskTreeListItem());
+      this.taskViewer.DataContext = taskViewerViewModel;
+      scheduler.OnTaskAdded += SchedulerOnTaskAdded;
+      scheduler.SimulationTime = 100;
+
+      var handleOrderTask = new Task() { Name = "Handle order 100 article A", ChildMode = TaskChildMode.Sequentiell };
+      handleOrderTask.SetTimeCosts(1000);
+      var taskForProductionDepartment = new Task { Name = "Department produce 100 article A", ChildMode = TaskChildMode.Sequentiell };
+      taskForProductionDepartment.SetTimeCosts(1000);
+      var taskForFactory = new Task { Name = "Factory produce 100 article A" };
+      taskForFactory.SetTimeCosts(1000);
+      var salesDepartment = new TaskHandler { Name = "Sales department" };
+      var productionDepartment = new TaskHandler{Name = "Production department"};
+      var factory = new TaskHandler { Name = "Factory" };
+      salesDepartment.AddTask(handleOrderTask);
+
+      handleOrderTask.OnTaskStarted += (s, e) => {
+        this.Timer.Stop();
+        handleOrderTask.AddChildTask(taskForProductionDepartment);
+        productionDepartment.AddTask(taskForProductionDepartment);
+        scheduler.AddTask(taskForProductionDepartment);
+        this.Timer.Start();
+      };
+
+      taskForProductionDepartment.OnTaskStarted += (s, e) => {
+        this.Timer.Stop();
+        taskForProductionDepartment.AddChildTask(taskForFactory);
+        factory.AddTask(taskForFactory);
+        scheduler.AddTask(taskForFactory);
+        this.Timer.Start();
+      };
+
+      taskForFactory.OnTaskStarted += (s, e) =>
+      {
+        taskForFactory.ChildMode = TaskChildMode.Sequentiell;
+        var setProductionLine = new Task { Name = "set production line article A" };
+        setProductionLine.SetTimeCosts(500);
+        factory.AddTask(setProductionLine);
+        taskForFactory.AddChildTask(setProductionLine);
+        var prepareProductionLine = new Task { Name = "prepare production line article A" };
+        prepareProductionLine.SetTimeCosts(700);
+        factory.AddTask(prepareProductionLine);
+        taskForFactory.AddChildTask(prepareProductionLine);
+        var produce = new Task { Name = "produce 100 article A" };
+        produce.SetTimeCosts(2000);
+        taskForFactory.AddChildTask(produce);
+        factory.AddTask(produce);
+        scheduler.AddTask(setProductionLine);
+        scheduler.AddTask(prepareProductionLine);
+        scheduler.AddTask(produce);
+      };
+
+      scheduler.AddTask(handleOrderTask);
+
+      //Timer.Interval = 1;
+      //Timer.Elapsed += Timer_Elapsed;
+      //Timer.Start();
     }
 
     private void SideBySideCleanApartment_OnTaskFinished(object sender, EventArgs e)
@@ -141,7 +207,7 @@ namespace SimTaskViewer
 
     private void Timer_Elapsed(object sender, ElapsedEventArgs e)
     {
-      scheduler.Tick(2);
+      scheduler.Tick(10);
     }
 
     private void SchedulerOnTaskAdded(object sender, ITask task)
@@ -183,11 +249,11 @@ namespace SimTaskViewer
 
     TaskTreeListItem Find(ITask task, ObservableCollection<TaskTreeListItem> items, bool remove)
     {
-      foreach (var item in items)
+      foreach (var item in items.ToArray())
       {
         if (item.Task == task)
         {
-          if (remove)
+          if (remove && items.Contains(item))
           {
             items.Remove(item);
           }
@@ -205,6 +271,11 @@ namespace SimTaskViewer
       }
 
       return null;
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+      this.scheduler.Tick(20);
     }
   }
 }

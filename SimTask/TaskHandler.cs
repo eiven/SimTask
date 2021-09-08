@@ -18,6 +18,11 @@ namespace SimTask
     /// </summary>
     public event TaskRemovedEventHandler OnTaskRemoved;
 
+    /// <summary>
+    /// Event occurs after a task was handled.
+    /// </summary>
+    public event TaskHandledEventHandler OnTaskHandled;
+
     public string Name { get; set; }
 
     /// <summary>
@@ -80,6 +85,7 @@ namespace SimTask
     {
       this.timeAccount -= deltaTime;
       task.InvestedTime += deltaTime;
+      this.OnTaskHandled?.Invoke(this, task);
     }
 
     /// <summary>

@@ -11,7 +11,8 @@
     <Page.DataContext>
         <ViewModel:TaskViewerViewModel />
     </Page.DataContext>
-    <TreeView Name="TreeViewTasking" ItemsSource="{Binding Path=TaskTreeListItems}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="402" Margin="10,10,0,0" VerticalAlignment="Top">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"> 
+    <TreeView Grid.Row="1" Name="TreeViewTasking" ItemsSource="{Binding Path=TaskTreeListItems}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="402" Margin="10,10,0,0" VerticalAlignment="Top">
         <TreeView.ItemTemplate>
             <HierarchicalDataTemplate DataType="local:TaskTreeListItem" ItemsSource="{Binding Path=SubListItems}">
                 <Grid>
@@ -36,5 +37,7 @@
                 </Style.Triggers>
             </Style>
         </TreeView.ItemContainerStyle>
-    </TreeView>
+        </TreeView>
+        <Button Grid.Row="2" CommandParameter="{Binding TaskScheduler}" Command="{Binding Tick}" Width="100" Height="28"></Button>
+    </Grid>
 </Page>

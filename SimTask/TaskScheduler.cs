@@ -23,7 +23,7 @@ namespace SimTask
       this.Tasks.Add(task);
       task.OnProgressChanged += this.OnProgressChanged;
       task.OnTaskFinished += this.OnTaskFinished;
-      this.OnTaskAdded.Invoke(this, task);
+      this.OnTaskAdded?.Invoke(this, task);
       return true;
     }
 

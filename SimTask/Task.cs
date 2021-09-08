@@ -155,7 +155,7 @@ namespace SimTask
         return;
       }
 
-      if (value > 0.0F)
+      if (value > 0.0F && this.GetProgress() == 0.0f)
       {
         this.OnTaskStarted?.Invoke(this, new EventArgs());
       }

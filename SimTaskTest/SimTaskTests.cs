@@ -112,10 +112,10 @@ namespace TaskingFrameworkNUnitTest.Tasking3
       var sideBySideCleanApartment = new Task();
       sideBySideCleanApartment.ChildMode = TaskChildMode.SideBySide;
       sideBySideCleanApartment.Name = "Cleaning apartment.";
-      var taskCleanKitchen = new TaskUnload();
+      var taskCleanKitchen = new Task();
       taskCleanKitchen.SetTimeCosts(1500);
       taskCleanKitchen.Name = "taskCleanKitchen";
-      var taskCleanBathroom = new TaskUnload();
+      var taskCleanBathroom = new Task();
       taskCleanBathroom.SetTimeCosts(1000);
       taskCleanBathroom.Name = "taskCleanBathroom";
       var taskCleanLivingRoom = new Task();

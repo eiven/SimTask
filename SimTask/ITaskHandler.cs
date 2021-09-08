@@ -21,6 +21,11 @@ namespace SimTask
     event TaskRemovedEventHandler OnTaskRemoved;
 
     /// <summary>
+    /// Event occurs after a task was handled.
+    /// </summary>
+    event TaskHandledEventHandler OnTaskHandled;
+
+    /// <summary>
     /// Gets or sets the name of the task handler.
     /// </summary>
     string Name { get; set; }
