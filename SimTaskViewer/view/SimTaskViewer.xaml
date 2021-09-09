@@ -11,33 +11,40 @@
     <Page.DataContext>
         <ViewModel:TaskViewerViewModel />
     </Page.DataContext>
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"> 
-    <TreeView Grid.Row="1" Name="TreeViewTasking" ItemsSource="{Binding Path=TaskTreeListItems}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="402" Margin="10,10,0,0" VerticalAlignment="Top">
-        <TreeView.ItemTemplate>
-            <HierarchicalDataTemplate DataType="local:TaskTreeListItem" ItemsSource="{Binding Path=SubListItems}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="2 2 0 0" Grid.Column="0" Text="{Binding Path=Name}"/>
-                    <TextBlock Margin="2 2 0 0" Grid.Column="1" Text="{Binding Path=HandlerName}"/>
-                    <ProgressBar Margin="2 2 0 0" Grid.Column="2" Minimum="0" Maximum="1" Background="AliceBlue" Value="{Binding Path=Progress, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="100px"/>
-                </Grid>
-            </HierarchicalDataTemplate>
-        </TreeView.ItemTemplate>
-        <TreeView.ItemContainerStyle>
-            <Style>
-                <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Path=Type}" Value="menu">
-                        <Setter Property="TreeViewItem.IsSelected" Value="True"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </TreeView.ItemContainerStyle>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+        <TreeView Grid.Row="0" Grid.Column="0" Name="TreeViewTasking" ItemsSource="{Binding Path=TaskTreeListItems}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="10,10,0,10" VerticalAlignment="Top">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="local:TaskTreeListItem" ItemsSource="{Binding Path=SubListItems}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="2 2 0 0" Grid.Column="0" Text="{Binding Path=Name}"/>
+                        <TextBlock Margin="2 2 0 0" Grid.Column="1" Text="{Binding Path=HandlerName}"/>
+                        <ProgressBar ToolTip="{Binding Path=ProgressToolTip}" Margin="2 2 0 0" Grid.Column="2" Minimum="0" Maximum="1" Background="AliceBlue" Value="{Binding Path=Progress, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="100px"/>
+                    </Grid>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+            <TreeView.ItemContainerStyle>
+                <Style>
+                    <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Type}" Value="menu">
+                            <Setter Property="TreeViewItem.IsSelected" Value="True"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
         </TreeView>
-        <Button Grid.Row="2" CommandParameter="{Binding TaskScheduler}" Command="{Binding Tick}" Width="100" Height="28"></Button>
+        <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" CommandParameter="{Binding TaskScheduler}" Margin="5 0 5 5" Content="Simulate tick (20)" Command="{Binding Tick}" Width="100" Height="28"></Button>
     </Grid>
 </Page>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimTask
@@ -82,7 +83,21 @@ namespace SimTask
       }
 
       task.SetParentTask(this);
+      task.OnProgressChanged += this.OnChildTaskProgressChanged;
       this.childTasks.Add(task);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnChildTaskProgressChanged(object sender, EventArgs e)
+    {
+      if (this.IsFinished())
+      {
+        this.OnTaskFinished?.Invoke(this, new EventArgs());
+      }
     }
 
     /// <summary>
@@ -162,7 +177,7 @@ namespace SimTask
 
       this.progress = value;
       this.OnProgressChanged?.Invoke(this, new EventArgs());
-      if (this.GetProgress() >= 1.0f)
+      if (this.IsFinished())
       {
         this.OnTaskFinished?.Invoke(this, new EventArgs());
       }
@@ -174,30 +189,7 @@ namespace SimTask
     protected void UpdateProgress()
     {
       float progressCalculated = 0.0f;
-      if (this.GetChildTasks().Count > 0)
-      {
-        float progressSum = 0.0f;
-        float investedTimeSum = 0.0f;
-        float timeCostsSum = 0.0f;
-        foreach (var task in this.GetChildTasks())
-        {
-          investedTimeSum += task.InvestedTime;
-          timeCostsSum += task.GetTimeCosts();
-          progressSum += task.GetProgress();
-        }
-
-        progressCalculated = progressSum / this.childTasks.Count;
-        if (progressCalculated > 1.0f)
-        {
-          progressCalculated = 1.0f;
-        }
-
-        this.InvestedTime = investedTimeSum;
-        this.SetTimeCosts(timeCostsSum);
-        progressCalculated = progressSum / this.childTasks.Count;
-      }
-      else
-        progressCalculated = this.GetTimeCosts() <= 0 ? 0 : this.InvestedTime / this.GetTimeCosts();
+      progressCalculated = this.GetTimeCosts() <= 0 ? 0 : this.InvestedTime / this.GetTimeCosts();
 
       if (progressCalculated > 1.0f)
       {
@@ -247,6 +239,15 @@ namespace SimTask
     public IList<ITask> GetChildTasks()
     {
       return this.childTasks;
+    }
+
+    /// <summary>
+    /// Allows to check if a task was finished.
+    /// </summary>
+    /// <returns>True if the task was finished.</returns>
+    public bool IsFinished()
+    {
+      return this.GetChildTasks().All(x => x.IsFinished()) && this.GetProgress() >= 1.0f;
     }
   }
 }

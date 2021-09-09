@@ -136,5 +136,11 @@ namespace SimTask
     /// Gets or sets the task name.
     /// </summary>
     string Name { get; set; }
+
+    /// <summary>
+    /// Allows to check if a task was finished.
+    /// </summary>
+    /// <returns>True if the task was finished.</returns>
+    bool IsFinished();
   }
 }

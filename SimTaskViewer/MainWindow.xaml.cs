@@ -4,6 +4,7 @@ using SimTaskViewer.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Timers;
@@ -115,12 +116,15 @@ namespace SimTaskViewer
       scheduler.AddTask(taskMoveTablePartner2);
       scheduler.AddTask(taskWashLivingRoomFloor);
       scheduler.AddTask(sideBySideCleanApartment);
-
-      //Timer.Interval = 1;
-      //Timer.Elapsed += Timer_Elapsed;
-      //Timer.Start();
     }
 
+    /// <summary>
+    /// Test scenario for a more complex use case.
+    /// We have a company with 2 departments. A sales department and production department.
+    /// The sales department receives or acquires orders. The production department handles
+    /// the order forwarded by the sales department.
+    /// Furthermore, there is a factory that manufactures the ordered products.
+    /// </summary>
     public void TestComplexTaskScenario()
     {
       var taskViewerViewModel = new TaskViewerViewModel();
@@ -144,19 +148,15 @@ namespace SimTaskViewer
       salesDepartment.AddTask(handleOrderTask);
 
       handleOrderTask.OnTaskStarted += (s, e) => {
-        this.Timer.Stop();
         handleOrderTask.AddChildTask(taskForProductionDepartment);
         productionDepartment.AddTask(taskForProductionDepartment);
         scheduler.AddTask(taskForProductionDepartment);
-        this.Timer.Start();
       };
 
       taskForProductionDepartment.OnTaskStarted += (s, e) => {
-        this.Timer.Stop();
         taskForProductionDepartment.AddChildTask(taskForFactory);
         factory.AddTask(taskForFactory);
         scheduler.AddTask(taskForFactory);
-        this.Timer.Start();
       };
 
       taskForFactory.OnTaskStarted += (s, e) =>
@@ -181,9 +181,9 @@ namespace SimTaskViewer
 
       scheduler.AddTask(handleOrderTask);
 
-      //Timer.Interval = 1;
-      //Timer.Elapsed += Timer_Elapsed;
-      //Timer.Start();
+      handleOrderTask.OnTaskFinished += (s, e) =>
+      {
+      };
     }
 
     private void SideBySideCleanApartment_OnTaskFinished(object sender, EventArgs e)

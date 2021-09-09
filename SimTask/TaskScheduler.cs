@@ -47,9 +47,9 @@ namespace SimTask
         task.GetTaskHandler().SetTimeAccount(deltaTime);
       }
 
-      while (taskProgressChanged)
+      while (this.taskProgressChanged)
       {
-        taskProgressChanged = false;
+        this.taskProgressChanged = false;
 
         var tasks = this.Tasks.ToArray();
         foreach (var task in tasks)
@@ -58,7 +58,7 @@ namespace SimTask
           {
             if (task.GetParentTask() == null)
             {
-              this.DoWork(task, task.GetTaskHandler().GetTimeAccount());
+              this.DoWork(task, task.GetTaskHandler().GetTimeToWorkOnTask(task));
             }
           }
         }

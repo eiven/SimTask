@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimTask
@@ -59,12 +60,7 @@ namespace SimTask
     {
       if (this.TaskQueue.IsTaskReachable(task))
       {
-        if (task.GetChildTasks().Count > 0)
-        {
-          return 0.0f;
-        }
-
-        return this.timeAccount;
+        return task.GetChildTasks().All(x => x.IsFinished()) ? this.timeAccount : 0.0f;
       }
 
       return 0.0f;

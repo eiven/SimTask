@@ -158,7 +158,7 @@ namespace SimTask
       {
         if (currentNode.Value.ChildMode == TaskChildMode.Sequentiell)
         {
-          if (node.Value != null && node.Value.GetProgress() < 1.0f)
+          if (node.Value != null && !node.Value.IsFinished())
           {
             return this.IsTaskReachable(task, node);
           }
