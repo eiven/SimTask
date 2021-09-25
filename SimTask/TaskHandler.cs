@@ -24,6 +24,9 @@ namespace SimTask
     /// </summary>
     public event TaskHandledEventHandler OnTaskHandled;
 
+    /// <summary>
+    /// Gets or sets the name of the task handler.
+    /// </summary>
     public string Name { get; set; }
 
     /// <summary>
@@ -58,6 +61,8 @@ namespace SimTask
     /// <returns>Time to work on task.</returns>
     public float GetTimeToWorkOnTask(ITask task)
     {
+      // TODO in some cases it could be possible to work on the parent task before the child tasks
+      // are finished.
       if (this.TaskQueue.IsTaskReachable(task))
       {
         return task.GetChildTasks().All(x => x.IsFinished()) ? this.timeAccount : 0.0f;
