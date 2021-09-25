@@ -144,6 +144,7 @@ namespace SimTaskViewer
       taskForFactory.SetTimeCosts(1000);
       var salesDepartment = new TaskHandler { Name = "Sales department" };
       var productionDepartment = new TaskHandler{Name = "Production department"};
+      var logisticsDepartment = new TaskHandler { Name = "Logistics department" };
       var factory = new TaskHandler { Name = "Factory" };
       salesDepartment.AddTask(handleOrderTask);
 
@@ -157,6 +158,15 @@ namespace SimTaskViewer
         taskForProductionDepartment.AddChildTask(taskForFactory);
         factory.AddTask(taskForFactory);
         scheduler.AddTask(taskForFactory);
+      };
+
+      taskForProductionDepartment.OnTaskFinished += (s, e) =>
+      {
+        var taskTransport = new Task { Name = "Transport order to customer" };
+        taskTransport.SetTimeCosts(200);
+        logisticsDepartment.AddTask(taskTransport);
+        handleOrderTask.AddChildTask(taskTransport);
+        scheduler.AddTask(taskTransport);
       };
 
       taskForFactory.OnTaskStarted += (s, e) =>
@@ -271,11 +281,6 @@ namespace SimTaskViewer
       }
 
       return null;
-    }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-      this.scheduler.Tick(20);
     }
   }
 }

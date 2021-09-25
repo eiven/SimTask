@@ -37,14 +37,9 @@
             <TreeView.ItemContainerStyle>
                 <Style>
                     <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=Type}" Value="menu">
-                            <Setter Property="TreeViewItem.IsSelected" Value="True"/>
-                        </DataTrigger>
-                    </Style.Triggers>
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>
-        <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" CommandParameter="{Binding TaskScheduler}" Margin="5 0 5 5" Content="Simulate tick (20)" Command="{Binding Tick}" Width="100" Height="28"></Button>
+        <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" CommandParameter="{Binding TaskScheduler}" Margin="5 0 5 5" Content="Simulate tick (200)" Command="{Binding Tick}" Width="100" Height="28"></Button>
     </Grid>
 </Page>

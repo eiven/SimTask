@@ -48,7 +48,7 @@
 
       public void Execute(object parameter)
       {
-        (parameter as TaskScheduler).Tick(20);
+        (parameter as TaskScheduler).Tick(200);
       }
     }
   }
